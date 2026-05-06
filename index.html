@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashLearn Ultimate All-in-One PRO</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<style>
+html{
+    scroll-behavior:smooth;
+    scroll-snap-type:y mandatory;
+}
+body{
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+}
+.dark{ background:#111 !important; }
+section{
+    min-height:100vh;
+    scroll-snap-align:start;
+    padding:60px 20px;
+}
+.glass{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    border-radius:15px;
+    padding:20px;
+}
+.flashcard{
+    perspective:1000px;
+    width:200px;
+    height:150px;
+    margin:10px;
+    display:inline-block;
+}
+.card-inner{
+    width:100%;
+    height:100%;
+    transition:0.8s;
+    transform-style:preserve-3d;
+    position:relative;
+}
+.flashcard:hover .card-inner{
+    transform:rotateY(180deg);
+}
+.front,.back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    backface-visibility:hidden;
+    font-weight:bold;
+}
+.front{background:#ff9a9e;color:black;}
+.back{background:#a18cd1;transform:rotateY(180deg);}
+.kids{background:url('kids.jpg') center/cover fixed;}
+.teens{background:url('teens.jpg') center/cover fixed;}
+.adults{background:url('adults.jpg') center/cover fixed;}
+.overlay{
+    background:rgba(0,0,0,0.6);
+    padding:50px 0;
+}
+#options button,#gameOptions button{
+    margin:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#ffdd57;
+    font-weight:bold;
+}
+#progressBar{
+    height:5px;
+    background:lime;
+    width:0%;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:999;
+}
+#topBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    display:none;
+}
+footer{
+    background:black;
+    padding:15px;
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav class="navbar navbar-dark bg-dark px-3 sticky-top">
+<b>FlashLearn PRO</b>
+<button class="btn btn-light" onclick="toggleDark()">🌙</button>
+</nav>
+<div class="text-center p-2">
+<h5 id="xp">XP: 0</h5>
+<h5 id="rank">Rank: Beginner</h5>
+</div>
+<section class="kids">
+<div class="overlay text-center">
+<h2>👶 Kids Learning</h2>
+<div class="glass">
+<div class="flashcard" onclick="speak('Dog')">
+<div class="card-inner">
+<div class="front">🐶 Dog</div>
+<div class="back">कुत्ता</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Apple')">
+<div class="card-inner">
+<div class="front">🍎 Apple</div>
+<div class="back">सेब</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Sun')">
+<div class="card-inner">
+<div class="front">🌞 Sun</div>
+<div class="back">सूरज</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Car')">
+<div class="card-inner">
+<div class="front">🚗 Car</div>
+<div class="back">गाड़ी</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="teens">
+<div class="overlay text-center">
+<h2>🔥 Teens Learning</h2>
+<div class="glass">
+<div class="flashcard" onclick="speak('Stay Strong')">
+<div class="card-inner">
+<div class="front">💪 Stay Strong</div>
+<div class="back">मजबूत रहो</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Keep Learning')">
+<div class="card-inner">
+<div class="front">📚 Keep Learning</div>
+<div class="back">सीखते रहो</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Stay Motivated')">
+<div class="card-inner">
+<div class="front">🔥 Stay Motivated</div>
+<div class="back">प्रेरित रहो</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Keep Smiling')">
+<div class="card-inner">
+<div class="front">😊 Keep Smiling</div>
+<div class="back">मुस्कुराते रहो</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="adults">
+<div class="overlay text-center">
+<h2>🎯 Adults Learning</h2>
+<div class="glass">
+<div class="flashcard" onclick="speak('Success')">
+<div class="card-inner">
+<div class="front">🎯 Success</div>
+<div class="back">सफलता</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Knowledge')">
+<div class="card-inner">
+<div class="front">🧠 Knowledge</div>
+<div class="back">ज्ञान</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Work Hard')">
+<div class="card-inner">
+<div class="front">💼 Work Hard</div>
+<div class="back">कड़ी मेहनत करो</div>
+</div>
+</div>
+<div class="flashcard" onclick="speak('Confidence')">
+<div class="card-inner">
+<div class="front">✨ Confidence</div>
+<div class="back">आत्मविश्वास</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="quiz" class="text-center">
+<h2>📝 Quiz</h2>
+<p id="question"></p>
+<div id="options"></div>
+<p id="score"></p>
+<button class="btn btn-dark" onclick="next()">Next</button>
+</section>
+<section id="game" class="text-center">
+<h2>🎮 Game Mode</h2>
+<h4 id="level"></h4>
+<p id="gameQ"></p>
+<div id="gameOptions"></div>
+<p id="gameResult"></p>
+</section>
+<section class="container">
+<h2>📩 Contact</h2>
+<input class="form-control mb-2" placeholder="Name">
+<input class="form-control mb-2" placeholder="Email">
+<textarea class="form-control mb-2"></textarea>
+<button class="btn btn-primary w-100">Send</button>
+</section>
+<footer class="text-center">© 2026 FlashLearn PRO</footer>
+<button id="topBtn" class="btn btn-primary">↑</button>
+<script>
+function toggleDark(){
+document.body.classList.toggle("dark");
+}
+function speak(t){
+speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+}
+let xp=0;
+function addXP(v){
+xp+=v;
+document.getElementById("xp").innerText="XP: "+xp;
+updateRank();
+}
+function updateRank(){
+let r="Beginner";
+if(xp>20) r="Bronze 🥉";
+if(xp>50) r="Silver 🥈";
+if(xp>100) r="Gold 🥇";
+document.getElementById("rank").innerText="Rank: "+r;
+}
+let q=[
+{ques:"Apple means?",opt:["सेब","Dog"],ans:"सेब"},
+{ques:"Dog means?",opt:["कुत्ता","Sun"],ans:"कुत्ता"}
+];
+let i=0,score=0;
+function load(){
+document.getElementById("question").innerText=q[i].ques;
+let b="";
+q[i].opt.forEach(o=>{
+b+=`<button onclick="check('${o}')">${o}</button>`;
+});
+document.getElementById("options").innerHTML=b;
+}
+function check(a){
+if(a===q[i].ans){
+score++;
+addXP(10);
+alert("Correct +10 XP");
+}
+}
+function next(){
+i++;
+if(i<q.length) load();
+else{
+document.getElementById("question").innerText="Finished!";
+document.getElementById("score").innerText="Score: "+score;
+document.getElementById("options").innerHTML="";
+}
+}
+load();
+let levels=[
+{q:"Dog means?",opt:["कुत्ता","सेब"],ans:"कुत्ता"},
+{q:"Success means?",opt:["सफलता","ज्ञान"],ans:"सफलता"}
+];
+let l=0;
+function loadGame(){
+document.getElementById("level").innerText="Level "+(l+1);
+document.getElementById("gameQ").innerText=levels[l].q;
+let b="";
+levels[l].opt.forEach(o=>{
+b+=`<button onclick="checkGame('${o}')">${o}</button>`;
+});
+document.getElementById("gameOptions").innerHTML=b;
+}
+function checkGame(a){
+if(a===levels[l].ans){
+addXP(20);
+l++;
+if(l<levels.length) loadGame();
+else document.getElementById("gameResult").innerText="All Levels Completed!";
+}
+}
+loadGame();
+window.onscroll=function(){
+let s=(document.documentElement.scrollTop)/(document.documentElement.scrollHeight-document.documentElement.clientHeight)*100;
+document.getElementById("progressBar").style.width=s+"%";
+document.getElementById("topBtn").style.display=s>20?"block":"none";
+};
+document.getElementById("topBtn").onclick=()=>scrollTo({top:0,behavior:'smooth'});
+</script>
+<script>
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("sw.js");
+}
+</script>
+</body>
+</html>
